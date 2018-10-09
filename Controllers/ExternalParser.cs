@@ -1,69 +1,63 @@
-﻿using PowerDiff.Models.SemanticMerge;
+using PowerDiff.Models.SemanticMerge;
+using System;
 using System.IO;
 using System.Text;
 using YamlDotNet.Serialization;
-using System.Threading.Tasks;
-using System;
 
 namespace PowerDiff.Controllers
 {
   /// <summary>
-  /// 
+  ///
   /// </summary>
-  public static class ExternalParser
+  public static class ExternalParser<T>
+    where T : DeclarationFile
   {
-    private static bool erred = false;
-
     /// <summary>
-    /// 
+    ///
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     /// <param name="args"></param>
     /// <returns></returns>
-    public async static Task Main<T>(string[] args)
-      where T : DeclarationFile
+    public static void Main(string[] args)
     {
-      if (args.Length % 3 == 0)
+      if (args.Length == 2 )
       {
+        File.WriteAllText(args[1], "");
+
         var serializer = new SerializerBuilder()
           .WithTypeConverter(new SpanYamlTypeConverter())
           .WithTypeConverter(new LocationSpanYamlTypeConverter())
           .Build();
-        for (int i = 0; i < args.Length; i += 3)
+
+        string fileToParse;
+        while ((fileToParse = Console.ReadLine()) != "end")
         {
-          string fileToParse = args[i + 0];
+          Encoding encoding = null;
           try
           {
-            Encoding encoding = Encoding.GetEncoding(args[i + 1]);
+            encoding = Encoding.GetEncoding(Console.ReadLine());
           }
-          catch (ArgumentException e)
+          catch (ArgumentException)
           {
-            erred = true;
-            continue;
+            Console.WriteLine("KO");
           }
-          string outputPath = args[i + 2];
+
+          string outputPath = Console.ReadLine();
 
           try
           {
             using (var writer = File.CreateText(outputPath))
             {
-              serializer.Serialize(writer, await DeclarationFile.ParseFile<T>(fileToParse));
+              serializer.Serialize(writer, DeclarationFile.ParseFile<T>(fileToParse, encoding));
             }
           }
-          catch (Exception e)
+          catch (Exception)
           {
-            erred = true;
-            continue;
+            Console.WriteLine("KO");
           }
+
+          Console.WriteLine("OK");
         }
       }
-      else
-      {
-        erred = true;
-      }
-
-      if (erred) { Console.WriteLine("KO"); }
-      else { Console.WriteLine("OK"); }
     }
   }
 }
