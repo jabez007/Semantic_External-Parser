@@ -29,33 +29,33 @@ namespace PowerDiff.Controllers
           .Build();
 
         string fileToParse;
-        while ((fileToParse = Console.ReadLine()) != "end")
+        while (!string.IsNullOrEmpty(fileToParse = Console.ReadLine())
         {
-          Encoding encoding = null;
           try
           {
-            encoding = Encoding.GetEncoding(Console.ReadLine());
+            Encoding encoding = Encoding.GetEncoding(Console.ReadLine());
+            try
+            {
+              using (var writer = File.CreateText(Console.ReadLine()))
+              {
+                serializer.Serialize(writer, DeclarationFile.ParseFile<T>(fileToParse, encoding));
+              }
+            }
+            catch (Exception)
+            {
+              Console.WriteLine("KO");
+            }
           }
           catch (ArgumentException)
           {
             Console.WriteLine("KO");
-          }
-
-          string outputPath = Console.ReadLine();
-
-          try
-          {
-            using (var writer = File.CreateText(outputPath))
-            {
-              serializer.Serialize(writer, DeclarationFile.ParseFile<T>(fileToParse, encoding));
-            }
-          }
-          catch (Exception)
-          {
-            Console.WriteLine("KO");
-          }
+          }          
 
           Console.WriteLine("OK");
+        }
+        else
+        {
+          Console.WriteLine("KO");
         }
       }
     }
