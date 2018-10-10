@@ -53,10 +53,10 @@ namespace PowerDiff.Controllers
 
           Console.WriteLine("OK");
         }
-        else
-        {
-          Console.WriteLine("KO");
-        }
+      }
+      else
+      {
+        Console.WriteLine("KO");
       }
     }
   }
