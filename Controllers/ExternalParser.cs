@@ -19,7 +19,7 @@ namespace PowerDiff.Controllers
     /// <returns></returns>
     public static void Main(string[] args)
     {
-      if (args.Length == 2 )
+      if (args.Length == 2)
       {
         File.WriteAllText(args[1], "");
 
