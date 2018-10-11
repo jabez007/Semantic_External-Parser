@@ -19,7 +19,7 @@ namespace PowerDiff.Models.SemanticMerge.Parsing
       int currentCharacterPosition = 0;
       for (int i = 0; i < fileConents.Length; i++)
       {
-        string line = fileConents[i] + ((i + 1 == fileConents.Length) ? "" : Environment.NewLine);
+        string line = fileConents[i] + Environment.NewLine;
         Add(i + 1, new CodeRow(line, currentCharacterPosition));
         currentCharacterPosition += line.Length;
       }
