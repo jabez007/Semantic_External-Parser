@@ -36,6 +36,9 @@ namespace PowerDiff.Models.SemanticMerge.Parsing
 
     #region string
 
+    public bool StartsWith(string value) =>
+      ToString().StartsWith(value);
+
     public int IndexOf(char value) =>
       ToString().IndexOf(value);
 
@@ -43,9 +46,6 @@ namespace PowerDiff.Models.SemanticMerge.Parsing
       ToString().IndexOf(value);
 
     public string[] Split(char separator) =>
-      ToString().Split(separator);
-
-    public string[] Split(string separator) =>
       ToString().Split(separator);
 
     public bool Contains(char value) =>
