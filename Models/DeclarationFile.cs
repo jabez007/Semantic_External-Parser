@@ -39,7 +39,7 @@ namespace PowerDiff.Models.SemanticMerge
     /// <summary>
     /// 
     /// </summary>
-    [YamlMember(Alias = "parseErrorsDetected", Order = 5, ScalarStyle = ScalarStyle.Plain)]
+    [YamlMember(Alias = "parsingErrorsDetected", Order = 5, ScalarStyle = ScalarStyle.Plain)]
     public string _ParseErrorDetected { get; set; } = "false";
 
     /// <summary>
